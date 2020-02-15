@@ -1,0 +1,325 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+
+<!-- Head tag -->
+<head>
+
+    <meta charset="utf-8"/>
+    <meta http-equiv="X-UA-Compatible" content="IE=edge"/>
+    <meta name="viewport" content="width=device-width, initial-scale=1"/>
+
+    <!--Description-->
+
+    
+
+    
+        <meta name="description" content="JanGin的个人博客"/>
+    
+
+    <!--Author-->
+    
+        <meta name="author" content="JanGin"/>
+    
+
+    <!--Open Graph Title-->
+    
+        <meta property="og:title" content="CentOS 7下安装MySQL步骤笔记"/>
+    
+
+    <!--Open Graph Description-->
+    
+        <meta property="og:description" content="JanGin的个人博客"/>
+    
+
+    <!--Open Graph Site Name-->
+        <meta property="og:site_name" content="JanGin&#39;s BLOG"/>
+
+    <!--Type page-->
+    
+        <meta property="og:type" content="article"/>
+    
+
+    <!--Page Cover-->
+    
+    
+        <meta property="og:image" content="http://jangin.github.io/img/home-bg.jpg"/>
+    
+
+        <meta name="twitter:card" content="summary_large_image"/>
+
+    
+
+    
+        <meta name="twitter:image" content="http://jangin.github.io/img/home-bg.jpg"/>
+    
+
+    <!-- Title -->
+    
+    <title>CentOS 7下安装MySQL步骤笔记 - JanGin&#39;s BLOG</title>
+
+    <!-- Bootstrap Core CSS -->
+    <link href="//maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css" rel="stylesheet"/>
+
+    <!-- Custom CSS -->
+    
+<link rel="stylesheet" href="/css/style.css">
+
+
+    <!-- Custom Fonts -->
+    <link href="//maxcdn.bootstrapcdn.com/font-awesome/4.6.3/css/font-awesome.min.css" rel="stylesheet" type="text/css"/>
+    <link href="//fonts.googleapis.com/css?family=Lora:400,700,400italic,700italic" rel="stylesheet" type="text/css"/>
+    <link href="//fonts.googleapis.com/css?family=Open+Sans:300italic,400italic,600italic,700italic,800italic,400,300,600,700,800" rel="stylesheet" type="text/css"/>
+
+    <!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
+    <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
+    <!--[if lt IE 9]>
+    <script src="//oss.maxcdn.com/libs/html5shiv/3.7.0/html5shiv.js"></script>
+    <script src="//oss.maxcdn.com/libs/respond.js/1.4.2/respond.min.js"></script>
+    <![endif]-->
+
+    <!-- Gallery -->
+    <link href="//cdnjs.cloudflare.com/ajax/libs/featherlight/1.3.5/featherlight.min.css" type="text/css" rel="stylesheet"/>
+
+    <!-- Google Analytics -->
+    
+
+
+    <!-- favicon -->
+    
+    <link rel="icon" href="/img/favicon.ico"/>
+    
+
+<meta name="generator" content="Hexo 4.2.0"></head>
+
+
+<body>
+
+    <!-- Menu -->
+    <!-- Navigation -->
+<nav class="navbar navbar-default navbar-custom navbar-fixed-top">
+    <div class="container-fluid">
+        <!-- Brand and toggle get grouped for better mobile display -->
+        <div class="navbar-header page-scroll">
+            <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#bs-example-navbar-collapse-1">
+                <span class="sr-only">Toggle navigation</span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+            </button>
+            <a class="navbar-brand" href="/">JanGin's BLOG</a>
+        </div>
+
+        <!-- Collect the nav links, forms, and other content for toggling -->
+        <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
+            <ul class="nav navbar-nav navbar-right">
+                
+                    <li>
+                        <a href="/">
+                            
+                                主页
+                            
+                        </a>
+                    </li>
+                
+                    <li>
+                        <a href="/archives">
+                            
+                                归档
+                            
+                        </a>
+                    </li>
+                
+                    <li>
+                        <a href="/tags">
+                            
+                                标签
+                            
+                        </a>
+                    </li>
+                
+                    <li>
+                        <a href="/categories">
+                            
+                                分类
+                            
+                        </a>
+                    </li>
+                
+            </ul>
+        </div>
+        <!-- /.navbar-collapse -->
+    </div>
+    <!-- /.container -->
+</nav>
+
+    <!-- Main Content -->
+    <!-- Page Header -->
+<!-- Set your background image for this header in your post front-matter: cover -->
+
+<header class="intro-header" style="background-image: url('/img/home-bg.jpg')">
+    <div class="container">
+        <div class="row">
+            <div class="col-lg-8 col-lg-offset-2 col-md-10 col-md-offset-1">
+                <div class="post-heading">
+                    <h1>CentOS 7下安装MySQL步骤笔记</h1>
+                    
+                    <span class="meta">
+                        <!-- Date and Author -->
+                        
+                        
+                            2020-02-15
+                        
+                    </span>
+                </div>
+            </div>
+        </div>
+    </div>
+</header>
+
+<!-- Post Content -->
+<article>
+    <div class="container">
+        <div class="row">
+
+            <!-- Tags and categories -->
+           
+                <div class="col-lg-4 col-lg-offset-2 col-md-5 col-md-offset-1 post-tags">
+                    
+                        
+
+
+<a href="/tags/MySQL-CentOS7-software/">#MySQL, CentOS7, software</a>
+
+
+                    
+                </div>
+                <div class="col-lg-4 col-md-5 post-categories">
+                    
+                </div>
+            
+
+            <!-- Gallery -->
+            
+
+            <!-- Post Main Content -->
+            <div class="col-lg-8 col-lg-offset-2 col-md-10 col-md-offset-1">
+                <h2><span id="centos7-下安装mysql步骤笔记">CentOS7 下安装MySQL步骤笔记</span></h2><h5><span id="1-检查本机是否安装过mysql">1. 检查本机是否安装过MySQL</span></h5><h5><span id="2-为mysql创建用户和组">2. 为MySQL创建用户和组</span></h5><h5><span id="3-下载mysql安装包并解压">3. 下载MySQL安装包并解压</span></h5><h5><span id="4-安装编译mysql所需的库">4. 安装编译MySQL所需的库</span></h5><h5><span id="5-编译运行mysql">5. 编译运行mysql</span></h5><h5><span id="6-设置软链接并重启">6. 设置软链接并重启</span></h5><h5><span id="7-修改初始密码">7. 修改初始密码</span></h5><h5><span id="8-开放远程连接">8. 开放远程连接</span></h5><h5><span id="9-设置开机启动">9. 设置开机启动</span></h5><h5><span id="10安装过程中可能出现的一些问题">10.安装过程中可能出现的一些问题</span></h5><hr>
+<h4><span id="1-检查之前是否安装过mysql-执行命令">1. 检查之前是否安装过mysql, 执行命令</span></h4><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">rpm -qa | grep  mysql 或 rpm -qa | grep mariadb</span><br></pre></td></tr></table></figure>
+<p>如果结果不为空，则执行命令</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">rpm -e --nodeps &#39;上条命令的输出&#39;</span><br></pre></td></tr></table></figure>
+<p>再查找所有跟mysql或者mariadb有关的文件和文件夹，执行命令</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">whereis mysql 或 which mysql 或 find &#x2F; -name mysql</span><br></pre></td></tr></table></figure>
+<p>再执行命令</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">rm -rf &#39;mysql文件所在目录&#39;</span><br></pre></td></tr></table></figure>
+
+<h4><span id="2-创建用户和组">2. 创建用户和组</span></h4><p>执行命令</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">groupadd mysql</span><br><span class="line">useradd mysql</span><br></pre></td></tr></table></figure>
+
+<h4><span id="3-执行下列命令下载安装包">3. 执行下列命令下载安装包</span></h4><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">wget mysql-5.7.17-linux-glibc2.5-x86_64.tar.gz</span><br></pre></td></tr></table></figure>
+<p>在 /usr/local/ 下创建 mysql目录<br>解压安装包并将内容复制到mysql目录中<br>执行命令</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">tar -xzvf mysql-5.7.17-linux-glibc2.5-x86_64.tar.gz</span><br><span class="line">mv mysql-5.7.17-linux-glibc2.5-x86_64.tar.gz&#x2F;* &#x2F;usr&#x2F;local&#x2F;mysql&#x2F;</span><br></pre></td></tr></table></figure>
+
+<h4><span id="4-安装编译mysql所需的库">4. 安装编译MySQL所需的库</span></h4><p>如果这是一台新机器，那么在编译安装的过程中可能会出现由于某些库文件的缺失而安装失败的情况。为了避免这种问题，我们事先先安装好依赖库。执行命令</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">yum install  libaio-devel.x86_64</span><br><span class="line">yum -y install numactl</span><br></pre></td></tr></table></figure>
+<h4><span id="5-编译运行mysql">5. 编译运行mysql</span></h4><p>执行命令</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">cd &#x2F;usr&#x2F;local&#x2F;mysql&#x2F;bin</span><br><span class="line">.&#x2F;mysqld --initialize --user&#x3D;mysql --datadir&#x3D;&#x2F;usr&#x2F;local&#x2F;mysql&#x2F;data --basedir&#x3D;&#x2F;usr&#x2F;local&#x2F;mysql </span><br><span class="line">--pid_file&#x3D;&#x2F;usr&#x2F;local&#x2F;mysql&#x2F;mysql.pid</span><br></pre></td></tr></table></figure>
+<p>假如这步没有报错的话，控制台会输出一个mysql的初始root用户密码，将这个密码记下来，后边会用到。<br>修改mysql配置文件，打开 /etc/my.cnf, 加入以下内容：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line">[mysqld]</span><br><span class="line">user&#x3D;mysql</span><br><span class="line">datadir&#x3D;&#x2F;usr&#x2F;local&#x2F;mysql&#x2F;data</span><br><span class="line">socket&#x3D;&#x2F;usr&#x2F;local&#x2F;mysql&#x2F;mysql.sock</span><br><span class="line">port &#x3D; 3306</span><br><span class="line">sql_mode&#x3D;NO_ENGINE_SUBSTITUTION,STRICT_TRANS_TABLES</span><br><span class="line">max_connections&#x3D;400</span><br><span class="line">innodb_file_per_table&#x3D;1</span><br><span class="line"></span><br><span class="line">[client]</span><br><span class="line">port&#x3D;3306</span><br><span class="line">socket&#x3D;&#x2F;usr&#x2F;local&#x2F;mysql&#x2F;mysql.sock</span><br></pre></td></tr></table></figure>
+
+<p>退出编辑并保存，启动MySQL, 执行命令</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">&#x2F;usr&#x2F;local&#x2F;mysql&#x2F;support-files&#x2F;mysql.server start</span><br></pre></td></tr></table></figure>
+
+<h4><span id="6-设置软链接并重启">6. 设置软链接并重启</span></h4><p>执行下列命令为MySQL的执行文件设置软链接</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">ln -s &#x2F;usr&#x2F;local&#x2F;mysql&#x2F;bin&#x2F;mysql &#x2F;usr&#x2F;bin&#x2F;mysql</span><br><span class="line">ln -s &#x2F;usr&#x2F;local&#x2F;mysql&#x2F;support-files&#x2F;mysql.server &#x2F;etc&#x2F;init.d&#x2F;mysql</span><br></pre></td></tr></table></figure>
+<p>并重启MySQL</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">service mysql restart</span><br></pre></td></tr></table></figure>
+
+<h4><span id="7-修改初始密码">7. 修改初始密码</span></h4><p>先登录MySQL, 切换到 /usr/local/mysql/bin目录下</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">mysql -h localhost -uroot -p</span><br></pre></td></tr></table></figure>
+<p>然后输入第5步得到的初始root密码</p>
+<p>执行语句</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">set password for root@localhost &#x3D; password(&#39;yourpass&#39;);</span><br></pre></td></tr></table></figure>
+<p>修改root用户的初始密码</p>
+<h4><span id="8-开放远程连接">8. 开放远程连接</span></h4><p>为了让不在同一台机器上的客户端都可以连上MySQL Server端，可以考虑开放远程连接功能，执行以下SQL</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">use mysql;</span><br><span class="line">update user set user.Host&#x3D;&#39;%&#39; where user.User&#x3D;&#39;root&#39;;</span><br><span class="line">flush privileges;</span><br></pre></td></tr></table></figure>
+<h4><span id="9-设置开机启动">9. 设置开机启动</span></h4><p>执行以下命令可将MySQL服务设置为开机启动</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">cp &#x2F;usr&#x2F;local&#x2F;mysql&#x2F;support-files&#x2F;mysql.server &#x2F;etc&#x2F;init.d&#x2F;mysqld</span><br><span class="line">chmod +x &#x2F;etc&#x2F;init.d&#x2F;mysqld</span><br><span class="line">chkconfig --add mysqld</span><br></pre></td></tr></table></figure>
+<h4><span id="10安装过程中可能出现的一些问题">10.安装过程中可能出现的一些问题</span></h4><p>本次安装过程中第5步主要出现了以下2个问题</p>
+<ul>
+<li>错误1: <strong>mysqld_safe error: log-error set to ‘/usr/local/mysql/log/mariadb/mariadb.log’, however file don’t exists. Create writable for user ‘mysql’</strong></li>
+</ul>
+<p>这个错误应该就是错误信息中所描述的文件不存在，或者说是<strong>my.cnf</strong> 配置文件写错了，解决办法就是创建好相应的目录和文件就行.</p>
+<ul>
+<li>错误2: <strong>The server quit without updating PID file</strong><br>这个错误的可能原因是，对于配置文件中所配置的一些目录和文件，mysql用户没有写入的权限，可以尝试使用chmod命令进行修正</li>
+</ul>
+<p>还有一个错误就是在登录MySQL的时候可能会报一个这样的连接错误：<br><strong>Can’t connect to local MySQL server through socket ‘/tmp/mysql.sock’ (2)</strong></p>
+<p>这个问题的解决就是在 <strong>my.cnf</strong> 配置文件中配置上 [client] 后面那一段，保存并重启MySQL服务就可以了。</p>
+<hr>
+<p>主要参考来源：</p>
+<ol>
+<li>-<a href="https://www.jianshu.com/p/276d59cbc529" target="_blank" rel="noopener">https://www.jianshu.com/p/276d59cbc529</a></li>
+</ol>
+
+
+                
+            </div>
+
+            <!-- Comments -->
+            
+                <div class="col-lg-8 col-lg-offset-2 col-md-10 col-md-offset-1">
+                    
+
+
+                </div>
+            
+        </div>
+    </div>
+</article>
+
+    <!-- Footer -->
+    <hr />
+
+<!-- Footer -->
+<footer>
+    <div class="container">
+        <div class="row">
+            <div class="col-lg-8 col-lg-offset-2 col-md-10 col-md-offset-1">
+                <ul class="list-inline text-center">
+                    
+
+                    
+
+                    
+
+                    
+
+                    
+
+                    
+                </ul>
+                <p class="copyright text-muted">&copy; 2020 JanGin<br></p>
+                <p class="copyright text-muted">Power by <a target="_blank" href="https://hexo.io/">Hexo</a></p>
+            </div>
+        </div>
+    </div>
+</footer>
+
+
+    <!-- After footer scripts -->
+    
+<!-- jQuery -->
+<script src="//code.jquery.com/jquery-2.1.4.min.js"></script>
+
+<!-- Bootstrap -->
+<script src="//maxcdn.bootstrapcdn.com/bootstrap/3.3.6/js/bootstrap.min.js"></script>
+
+<!-- Gallery -->
+<script src="//cdnjs.cloudflare.com/ajax/libs/featherlight/1.3.5/featherlight.min.js" type="text/javascript" charset="utf-8"></script>
+
+<!-- Disqus Comments -->
+
+
+
+</body>
+
+</html>
