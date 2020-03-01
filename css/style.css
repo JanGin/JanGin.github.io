@@ -615,3 +615,17 @@ pre .clojure .title {
 pre .deletion {
   color: #dc322f;
 }
+#toc {
+  background-color: #eee;
+  font-size: 0.8em;
+  color: color-link;
+}
+#toc ol {
+  list-style: none;
+}
+#toc .toc-link {
+  list-style: none;
+}
+#toc .toc-child {
+  list-style: none;
+}

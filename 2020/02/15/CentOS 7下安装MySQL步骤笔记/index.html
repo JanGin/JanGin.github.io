@@ -188,7 +188,7 @@
                         
 
 
-<a href="/tags/MySQL-CentOS7-software/">#MySQL, CentOS7, software</a>
+<a href="/tags/MySQL/">#MySQL</a> <a href="/tags/CentOS7/">#CentOS7</a>
 
 
                     
@@ -203,8 +203,16 @@
 
             <!-- Post Main Content -->
             <div class="col-lg-8 col-lg-offset-2 col-md-10 col-md-offset-1">
-                <h2><span id="centos7-下安装mysql步骤笔记">CentOS7 下安装MySQL步骤笔记</span></h2><h5><span id="1-检查本机是否安装过mysql">1. 检查本机是否安装过MySQL</span></h5><h5><span id="2-为mysql创建用户和组">2. 为MySQL创建用户和组</span></h5><h5><span id="3-下载mysql安装包并解压">3. 下载MySQL安装包并解压</span></h5><h5><span id="4-安装编译mysql所需的库">4. 安装编译MySQL所需的库</span></h5><h5><span id="5-编译运行mysql">5. 编译运行mysql</span></h5><h5><span id="6-设置软链接并重启">6. 设置软链接并重启</span></h5><h5><span id="7-修改初始密码">7. 修改初始密码</span></h5><h5><span id="8-开放远程连接">8. 开放远程连接</span></h5><h5><span id="9-设置开机启动">9. 设置开机启动</span></h5><h5><span id="10安装过程中可能出现的一些问题">10.安装过程中可能出现的一些问题</span></h5><hr>
-<h4><span id="1-检查之前是否安装过mysql-执行命令">1. 检查之前是否安装过mysql, 执行命令</span></h4><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">rpm -qa | grep  mysql 或 rpm -qa | grep mariadb</span><br></pre></td></tr></table></figure>
+                <!-- toc -->
+                
+    <div id="toc">
+        <strong class="sidebar-title">目录</strong>
+        <ol class="toc"><li class="toc-item toc-level-4"><a class="toc-link" href="#1-检查之前是否安装过mysql-执行命令"><span class="toc-text">1. 检查之前是否安装过mysql, 执行命令</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#2-创建用户和组"><span class="toc-text">2. 创建用户和组</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#3-执行下列命令下载安装包"><span class="toc-text">3. 执行下列命令下载安装包</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#4-安装编译MySQL所需的库"><span class="toc-text">4. 安装编译MySQL所需的库</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#5-编译运行mysql"><span class="toc-text">5. 编译运行mysql</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#6-设置软链接并重启"><span class="toc-text">6. 设置软链接并重启</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#7-修改初始密码"><span class="toc-text">7. 修改初始密码</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#8-开放远程连接"><span class="toc-text">8. 开放远程连接</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#9-设置开机启动"><span class="toc-text">9. 设置开机启动</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#10-安装过程中可能出现的一些问题"><span class="toc-text">10.安装过程中可能出现的一些问题</span></a></li></ol>
+    </div>
+
+                <hr>
+<!-- toc -->
+<h4 id="1-检查之前是否安装过mysql-执行命令"><a href="#1-检查之前是否安装过mysql-执行命令" class="headerlink" title="1. 检查之前是否安装过mysql, 执行命令"></a>1. 检查之前是否安装过mysql, 执行命令</h4><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">rpm -qa | grep  mysql 或 rpm -qa | grep mariadb</span><br></pre></td></tr></table></figure>
 <p>如果结果不为空，则执行命令</p>
 <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">rpm -e --nodeps &#39;上条命令的输出&#39;</span><br></pre></td></tr></table></figure>
 <p>再查找所有跟mysql或者mariadb有关的文件和文件夹，执行命令</p>
@@ -212,16 +220,20 @@
 <p>再执行命令</p>
 <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">rm -rf &#39;mysql文件所在目录&#39;</span><br></pre></td></tr></table></figure>
 
-<h4><span id="2-创建用户和组">2. 创建用户和组</span></h4><p>执行命令</p>
+<!-- toc -->
+<h4 id="2-创建用户和组"><a href="#2-创建用户和组" class="headerlink" title="2. 创建用户和组"></a>2. 创建用户和组</h4><p>执行命令</p>
 <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">groupadd mysql</span><br><span class="line">useradd mysql</span><br></pre></td></tr></table></figure>
 
-<h4><span id="3-执行下列命令下载安装包">3. 执行下列命令下载安装包</span></h4><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">wget mysql-5.7.17-linux-glibc2.5-x86_64.tar.gz</span><br></pre></td></tr></table></figure>
+<!-- toc -->
+<h4 id="3-执行下列命令下载安装包"><a href="#3-执行下列命令下载安装包" class="headerlink" title="3. 执行下列命令下载安装包"></a>3. 执行下列命令下载安装包</h4><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">wget mysql-5.7.17-linux-glibc2.5-x86_64.tar.gz</span><br></pre></td></tr></table></figure>
 <p>在 /usr/local/ 下创建 mysql目录<br>解压安装包并将内容复制到mysql目录中<br>执行命令</p>
 <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">tar -xzvf mysql-5.7.17-linux-glibc2.5-x86_64.tar.gz</span><br><span class="line">mv mysql-5.7.17-linux-glibc2.5-x86_64.tar.gz&#x2F;* &#x2F;usr&#x2F;local&#x2F;mysql&#x2F;</span><br></pre></td></tr></table></figure>
 
-<h4><span id="4-安装编译mysql所需的库">4. 安装编译MySQL所需的库</span></h4><p>如果这是一台新机器，那么在编译安装的过程中可能会出现由于某些库文件的缺失而安装失败的情况。为了避免这种问题，我们事先先安装好依赖库。执行命令</p>
+<!-- toc -->
+<h4 id="4-安装编译MySQL所需的库"><a href="#4-安装编译MySQL所需的库" class="headerlink" title="4. 安装编译MySQL所需的库"></a>4. 安装编译MySQL所需的库</h4><p>如果这是一台新机器，那么在编译安装的过程中可能会出现由于某些库文件的缺失而安装失败的情况。为了避免这种问题，我们事先先安装好依赖库。执行命令</p>
 <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">yum install  libaio-devel.x86_64</span><br><span class="line">yum -y install numactl</span><br></pre></td></tr></table></figure>
-<h4><span id="5-编译运行mysql">5. 编译运行mysql</span></h4><p>执行命令</p>
+<!-- toc -->
+<h4 id="5-编译运行mysql"><a href="#5-编译运行mysql" class="headerlink" title="5. 编译运行mysql"></a>5. 编译运行mysql</h4><p>执行命令</p>
 <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">cd &#x2F;usr&#x2F;local&#x2F;mysql&#x2F;bin</span><br><span class="line">.&#x2F;mysqld --initialize --user&#x3D;mysql --datadir&#x3D;&#x2F;usr&#x2F;local&#x2F;mysql&#x2F;data --basedir&#x3D;&#x2F;usr&#x2F;local&#x2F;mysql </span><br><span class="line">--pid_file&#x3D;&#x2F;usr&#x2F;local&#x2F;mysql&#x2F;mysql.pid</span><br></pre></td></tr></table></figure>
 <p>假如这步没有报错的话，控制台会输出一个mysql的初始root用户密码，将这个密码记下来，后边会用到。<br>修改mysql配置文件，打开 /etc/my.cnf, 加入以下内容：</p>
 <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line">[mysqld]</span><br><span class="line">user&#x3D;mysql</span><br><span class="line">datadir&#x3D;&#x2F;usr&#x2F;local&#x2F;mysql&#x2F;data</span><br><span class="line">socket&#x3D;&#x2F;usr&#x2F;local&#x2F;mysql&#x2F;mysql.sock</span><br><span class="line">port &#x3D; 3306</span><br><span class="line">sql_mode&#x3D;NO_ENGINE_SUBSTITUTION,STRICT_TRANS_TABLES</span><br><span class="line">max_connections&#x3D;400</span><br><span class="line">innodb_file_per_table&#x3D;1</span><br><span class="line"></span><br><span class="line">[client]</span><br><span class="line">port&#x3D;3306</span><br><span class="line">socket&#x3D;&#x2F;usr&#x2F;local&#x2F;mysql&#x2F;mysql.sock</span><br></pre></td></tr></table></figure>
@@ -229,22 +241,22 @@
 <p>退出编辑并保存，启动MySQL, 执行命令</p>
 <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">&#x2F;usr&#x2F;local&#x2F;mysql&#x2F;support-files&#x2F;mysql.server start</span><br></pre></td></tr></table></figure>
 
-<h4><span id="6-设置软链接并重启">6. 设置软链接并重启</span></h4><p>执行下列命令为MySQL的执行文件设置软链接</p>
+<h4 id="6-设置软链接并重启"><a href="#6-设置软链接并重启" class="headerlink" title="6. 设置软链接并重启"></a>6. 设置软链接并重启</h4><p>执行下列命令为MySQL的执行文件设置软链接</p>
 <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">ln -s &#x2F;usr&#x2F;local&#x2F;mysql&#x2F;bin&#x2F;mysql &#x2F;usr&#x2F;bin&#x2F;mysql</span><br><span class="line">ln -s &#x2F;usr&#x2F;local&#x2F;mysql&#x2F;support-files&#x2F;mysql.server &#x2F;etc&#x2F;init.d&#x2F;mysql</span><br></pre></td></tr></table></figure>
 <p>并重启MySQL</p>
 <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">service mysql restart</span><br></pre></td></tr></table></figure>
 
-<h4><span id="7-修改初始密码">7. 修改初始密码</span></h4><p>先登录MySQL, 切换到 /usr/local/mysql/bin目录下</p>
+<h4 id="7-修改初始密码"><a href="#7-修改初始密码" class="headerlink" title="7. 修改初始密码"></a>7. 修改初始密码</h4><p>先登录MySQL, 切换到 /usr/local/mysql/bin目录下</p>
 <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">mysql -h localhost -uroot -p</span><br></pre></td></tr></table></figure>
 <p>然后输入第5步得到的初始root密码</p>
 <p>执行语句</p>
 <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">set password for root@localhost &#x3D; password(&#39;yourpass&#39;);</span><br></pre></td></tr></table></figure>
 <p>修改root用户的初始密码</p>
-<h4><span id="8-开放远程连接">8. 开放远程连接</span></h4><p>为了让不在同一台机器上的客户端都可以连上MySQL Server端，可以考虑开放远程连接功能，执行以下SQL</p>
+<h4 id="8-开放远程连接"><a href="#8-开放远程连接" class="headerlink" title="8. 开放远程连接"></a>8. 开放远程连接</h4><p>为了让不在同一台机器上的客户端都可以连上MySQL Server端，可以考虑开放远程连接功能，执行以下SQL</p>
 <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">use mysql;</span><br><span class="line">update user set user.Host&#x3D;&#39;%&#39; where user.User&#x3D;&#39;root&#39;;</span><br><span class="line">flush privileges;</span><br></pre></td></tr></table></figure>
-<h4><span id="9-设置开机启动">9. 设置开机启动</span></h4><p>执行以下命令可将MySQL服务设置为开机启动</p>
+<h4 id="9-设置开机启动"><a href="#9-设置开机启动" class="headerlink" title="9. 设置开机启动"></a>9. 设置开机启动</h4><p>执行以下命令可将MySQL服务设置为开机启动</p>
 <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">cp &#x2F;usr&#x2F;local&#x2F;mysql&#x2F;support-files&#x2F;mysql.server &#x2F;etc&#x2F;init.d&#x2F;mysqld</span><br><span class="line">chmod +x &#x2F;etc&#x2F;init.d&#x2F;mysqld</span><br><span class="line">chkconfig --add mysqld</span><br></pre></td></tr></table></figure>
-<h4><span id="10安装过程中可能出现的一些问题">10.安装过程中可能出现的一些问题</span></h4><p>本次安装过程中第5步主要出现了以下2个问题</p>
+<h4 id="10-安装过程中可能出现的一些问题"><a href="#10-安装过程中可能出现的一些问题" class="headerlink" title="10.安装过程中可能出现的一些问题"></a>10.安装过程中可能出现的一些问题</h4><p>本次安装过程中第5步主要出现了以下2个问题</p>
 <ul>
 <li>错误1: <strong>mysqld_safe error: log-error set to ‘/usr/local/mysql/log/mariadb/mariadb.log’, however file don’t exists. Create writable for user ‘mysql’</strong></li>
 </ul>
