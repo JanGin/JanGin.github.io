@@ -1,225 +1,84 @@
-<!DOCTYPE html>
-<html lang="zh-CN">
+<!DOCTYPE html><html lang="zh-CN" data-theme="light"><head><meta charset="UTF-8"><meta http-equiv="X-UA-Compatible" content="IE=edge"><meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=5"><title>Hexo博客添加文章目录 | JanGin's BLOG</title><meta name="description" content="Hexo博客添加文章目录"><meta name="keywords" content="Hexo"><meta name="author" content="JanGin"><meta name="copyright" content="JanGin"><meta name="format-detection" content="telephone=no"><link rel="shortcut icon" href="/img/favicon.ico"><link rel="preconnect" href="//cdn.jsdelivr.net"><link rel="preconnect" href="https://fonts.googleapis.com" crossorigin><meta name="twitter:card" content="summary"><meta name="twitter:title" content="Hexo博客添加文章目录"><meta name="twitter:description" content="Hexo博客添加文章目录"><meta name="twitter:image" content="https://cdn.jsdelivr.net/gh/jerryc127/butterfly_cdn@2.1.0/top_img/default.png"><meta property="og:type" content="article"><meta property="og:title" content="Hexo博客添加文章目录"><meta property="og:url" content="http://jangin.github.io/2020/03/01/Hexo%E5%8D%9A%E5%AE%A2%E6%B7%BB%E5%8A%A0%E6%96%87%E7%AB%A0%E7%9B%AE%E5%BD%95/"><meta property="og:site_name" content="JanGin's BLOG"><meta property="og:description" content="Hexo博客添加文章目录"><meta property="og:image" content="https://cdn.jsdelivr.net/gh/jerryc127/butterfly_cdn@2.1.0/top_img/default.png"><meta http-equiv="Cache-Control" content="no-transform"><meta http-equiv="Cache-Control" content="no-siteapp"><script src="https://cdn.jsdelivr.net/npm/js-cookie/dist/js.cookie.min.js"></script><script>const autoChangeMode = 'true'
+var t = Cookies.get("theme");
+if (autoChangeMode == '1'){
+const isDarkMode = window.matchMedia("(prefers-color-scheme: dark)").matches
+const isLightMode = window.matchMedia("(prefers-color-scheme: light)").matches
+const isNotSpecified = window.matchMedia("(prefers-color-scheme: no-preference)").matches
+const hasNoSupport = !isDarkMode && !isLightMode && !isNotSpecified
 
-<!-- Head tag -->
-<head>
-
-    <meta charset="utf-8"/>
-    <meta http-equiv="X-UA-Compatible" content="IE=edge"/>
-    <meta name="viewport" content="width=device-width, initial-scale=1"/>
-
-    <!--Description-->
-
-    
-
-    
-        <meta name="description" content="JanGin的个人博客"/>
-    
-
-    <!--Author-->
-    
-        <meta name="author" content="JanGin"/>
-    
-
-    <!--Open Graph Title-->
-    
-        <meta property="og:title" content="Hexo博客添加文章目录"/>
-    
-
-    <!--Open Graph Description-->
-    
-        <meta property="og:description" content="JanGin的个人博客"/>
-    
-
-    <!--Open Graph Site Name-->
-        <meta property="og:site_name" content="JanGin&#39;s BLOG"/>
-
-    <!--Type page-->
-    
-        <meta property="og:type" content="article"/>
-    
-
-    <!--Page Cover-->
-    
-    
-        <meta property="og:image" content="http://jangin.github.io/img/home-bg.jpg"/>
-    
-
-        <meta name="twitter:card" content="summary_large_image"/>
-
-    
-
-    
-        <meta name="twitter:image" content="http://jangin.github.io/img/home-bg.jpg"/>
-    
-
-    <!-- Title -->
-    
-    <title>Hexo博客添加文章目录 - JanGin&#39;s BLOG</title>
-
-    <!-- Bootstrap Core CSS -->
-    <link href="//maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css" rel="stylesheet"/>
-
-    <!-- Custom CSS -->
-    
-<link rel="stylesheet" href="/css/style.css">
+if (t === undefined){
+  if (isLightMode) activateLightMode()
+  else if (isDarkMode) activateDarkMode()
+  else if (isNotSpecified || hasNoSupport){
+    console.log('You specified no preference for a color scheme or your browser does not support it. I Schedule dark mode during night time.')
+    now = new Date();
+    hour = now.getHours();
+    isNight = hour < 6 || hour >= 18
+    isNight ? activateDarkMode() : activateLightMode()
+}
+} else if (t == 'light') activateLightMode()
+else activateDarkMode()
 
 
-    <!-- Custom Fonts -->
-    <link href="//maxcdn.bootstrapcdn.com/font-awesome/4.6.3/css/font-awesome.min.css" rel="stylesheet" type="text/css"/>
-    <link href="//fonts.googleapis.com/css?family=Lora:400,700,400italic,700italic" rel="stylesheet" type="text/css"/>
-    <link href="//fonts.googleapis.com/css?family=Open+Sans:300italic,400italic,600italic,700italic,800italic,400,300,600,700,800" rel="stylesheet" type="text/css"/>
+} else if (autoChangeMode == '2'){
+  now = new Date();
+  hour = now.getHours();
+  isNight = hour < 6 || hour >= 18
+  if(t === undefined) isNight? activateDarkMode() : activateLightMode()
+  else if (t === 'light') activateLightMode()
+  else activateDarkMode() 
+} else {
+  if ( t == 'dark' ) activateDarkMode()
+  else if ( t == 'light') activateLightMode()
+}
 
-    <!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
-    <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
-    <!--[if lt IE 9]>
-    <script src="//oss.maxcdn.com/libs/html5shiv/3.7.0/html5shiv.js"></script>
-    <script src="//oss.maxcdn.com/libs/respond.js/1.4.2/respond.min.js"></script>
-    <![endif]-->
-
-    <!-- Gallery -->
-    <link href="//cdnjs.cloudflare.com/ajax/libs/featherlight/1.3.5/featherlight.min.css" type="text/css" rel="stylesheet"/>
-
-    <!-- Google Analytics -->
-    
-
-
-    <!-- favicon -->
-    
-    <link rel="icon" href="/img/favicon.ico"/>
-    
-
-<meta name="generator" content="Hexo 4.2.0"></head>
-
-
-<body>
-
-    <!-- Menu -->
-    <!-- Navigation -->
-<nav class="navbar navbar-default navbar-custom navbar-fixed-top">
-    <div class="container-fluid">
-        <!-- Brand and toggle get grouped for better mobile display -->
-        <div class="navbar-header page-scroll">
-            <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#bs-example-navbar-collapse-1">
-                <span class="sr-only">Toggle navigation</span>
-                <span class="icon-bar"></span>
-                <span class="icon-bar"></span>
-                <span class="icon-bar"></span>
-            </button>
-            <a class="navbar-brand" href="/">JanGin's BLOG</a>
-        </div>
-
-        <!-- Collect the nav links, forms, and other content for toggling -->
-        <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
-            <ul class="nav navbar-nav navbar-right">
-                
-                    <li>
-                        <a href="/">
-                            
-                                主页
-                            
-                        </a>
-                    </li>
-                
-                    <li>
-                        <a href="/archives">
-                            
-                                归档
-                            
-                        </a>
-                    </li>
-                
-                    <li>
-                        <a href="/tags">
-                            
-                                标签
-                            
-                        </a>
-                    </li>
-                
-                    <li>
-                        <a href="/categories">
-                            
-                                分类
-                            
-                        </a>
-                    </li>
-                
-            </ul>
-        </div>
-        <!-- /.navbar-collapse -->
-    </div>
-    <!-- /.container -->
-</nav>
-
-    <!-- Main Content -->
-    <!-- Page Header -->
-<!-- Set your background image for this header in your post front-matter: cover -->
-
-<header class="intro-header" style="background-image: url('/img/home-bg.jpg')">
-    <div class="container">
-        <div class="row">
-            <div class="col-lg-8 col-lg-offset-2 col-md-10 col-md-offset-1">
-                <div class="post-heading">
-                    <h1>Hexo博客添加文章目录</h1>
-                    
-                    <span class="meta">
-                        <!-- Date and Author -->
-                        
-                        
-                            2020-03-01
-                        
-                    </span>
-                </div>
-            </div>
-        </div>
-    </div>
-</header>
-
-<!-- Post Content -->
-<article>
-    <div class="container">
-        <div class="row">
-
-            <!-- Tags and categories -->
-           
-                <div class="col-lg-4 col-lg-offset-2 col-md-5 col-md-offset-1 post-tags">
-                    
-                        
-
-
-<a href="/tags/Hexo/">#Hexo</a>
-
-
-                    
-                </div>
-                <div class="col-lg-4 col-md-5 post-categories">
-                    
-                </div>
-            
-
-            <!-- Gallery -->
-            
-
-            <!-- Post Main Content -->
-            <div class="col-lg-8 col-lg-offset-2 col-md-10 col-md-offset-1">
-                <!-- toc -->
-                
-    <div id="toc">
-        <strong class="sidebar-title">目录</strong>
-        <ol class="toc"><li class="toc-item toc-level-3"><a class="toc-link" href="#1-新增-toc-ejs-文件"><span class="toc-text">1. 新增 toc.ejs 文件</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#2-修改-config-yml文件"><span class="toc-text">2. 修改_config.yml文件</span></a></li></ol>
-    </div>
-
-                <p>现在大多数人写博客都采用Hexo 提供的模板，为了不至于落后时代太多，咱也赶紧用起来。一般文章都会有目录索引，为了自己的博客更加完善也更加规范化，最近在网上找了一些相关资料，给自己的博客文章加上了目录。</p>
+function activateDarkMode(){
+  document.documentElement.setAttribute('data-theme', 'dark')
+  if (document.querySelector('meta[name="theme-color"]') !== null){
+    document.querySelector('meta[name="theme-color"]').setAttribute('content','#000')
+  }
+}
+function activateLightMode(){
+  document.documentElement.setAttribute('data-theme', 'light')
+  if (document.querySelector('meta[name="theme-color"]') !== null){
+  document.querySelector('meta[name="theme-color"]').setAttribute('content','#fff')
+  }
+}</script><link rel="stylesheet" href="/css/index.css"><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/font-awesome@latest/css/font-awesome.min.css"><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fancyapps/fancybox@latest/dist/jquery.fancybox.min.css"><link rel="canonical" href="http://jangin.github.io/2020/03/01/Hexo%E5%8D%9A%E5%AE%A2%E6%B7%BB%E5%8A%A0%E6%96%87%E7%AB%A0%E7%9B%AE%E5%BD%95/"><link rel="prev" title="日常工作中常用的Git操作汇总" href="http://jangin.github.io/2020/03/15/%E6%97%A5%E5%B8%B8%E5%B7%A5%E4%BD%9C%E4%B8%AD%E5%B8%B8%E7%94%A8%E7%9A%84Git%E6%93%8D%E4%BD%9C%E6%B1%87%E6%80%BB/"><link rel="next" title="CentOS 7下安装MySQL步骤笔记" href="http://jangin.github.io/2020/02/15/CentOS%207%E4%B8%8B%E5%AE%89%E8%A3%85MySQL%E6%AD%A5%E9%AA%A4%E7%AC%94%E8%AE%B0/"><link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Titillium+Web"><script>var GLOBAL_CONFIG = { 
+  root: '/',
+  algolia: undefined,
+  localSearch: undefined,
+  translate: undefined,
+  copy: {
+    success: '复制成功',
+    error: '复制错误',
+    noSupport: '浏览器不支持'
+  },
+  bookmark: {
+    title: 'Snackbar.bookmark.title',
+    message_prev: '按',
+    message_next: '键将本页加入书签'
+  },
+  runtime_unit: '天',
+  runtime: true,
+  copyright: {"languages":{"author":"作者: JanGin","link":"链接: http://jangin.github.io/2020/03/01/Hexo%E5%8D%9A%E5%AE%A2%E6%B7%BB%E5%8A%A0%E6%96%87%E7%AB%A0%E7%9B%AE%E5%BD%95/","source":"来源: JanGin's BLOG","info":"著作权归作者所有。商业转载请联系作者获得授权，非商业转载请注明出处。"}},
+  ClickShowText: undefined,
+  medium_zoom: false,
+  fancybox: true,
+  Snackbar: undefined,
+  baiduPush: false,
+  isHome: false,
+  isPost: true
+  
+}</script><meta name="generator" content="Hexo 4.2.0"></head><body><header> <div id="page-header"><span class="pull_left" id="blog_name"><a class="blog_title" id="site-name" href="/">JanGin's BLOG</a></span><span class="toggle-menu pull_right close"><a class="site-page"><i class="fa fa-bars fa-fw" aria-hidden="true"></i></a></span><span class="pull_right menus"><div class="menus_items"><div class="menus_item"><a class="site-page" href="/"><i class="fa-fw fa fa-home"></i><span> 主页</span></a></div><div class="menus_item"><a class="site-page" href="/archives/"><i class="fa-fw fa fa-archive"></i><span> 归档</span></a></div><div class="menus_item"><a class="site-page" href="/tags/"><i class="fa-fw fa fa-tags"></i><span> 标签</span></a></div><div class="menus_item"><a class="site-page" href="/categories/"><i class="fa-fw fa fa-folder-open"></i><span> 分类</span></a></div></div></span></div></header><div id="mobile-sidebar"><div id="menu_mask"></div><div id="mobile-sidebar-menus"><div class="mobile_author_icon"><img class="avatar-img" src="/img/avatar.png" onerror="onerror=null;src='/img/friend_404.gif'" alt="avatar"></div><div class="mobile_post_data"><div class="mobile_data_item is-center"><div class="mobile_data_link"><a href="/archives/"><div class="headline">文章</div><div class="length_num">5</div></a></div></div><div class="mobile_data_item is-center">      <div class="mobile_data_link"><a href="/tags/"><div class="headline">标签</div><div class="length_num">5</div></a></div></div><div class="mobile_data_item is-center">     <div class="mobile_data_link"><a href="/categories/"><div class="headline">分类</div><div class="length_num">5</div></a></div></div></div><hr><div class="menus_items"><div class="menus_item"><a class="site-page" href="/"><i class="fa-fw fa fa-home"></i><span> 主页</span></a></div><div class="menus_item"><a class="site-page" href="/archives/"><i class="fa-fw fa fa-archive"></i><span> 归档</span></a></div><div class="menus_item"><a class="site-page" href="/tags/"><i class="fa-fw fa fa-tags"></i><span> 标签</span></a></div><div class="menus_item"><a class="site-page" href="/categories/"><i class="fa-fw fa fa-folder-open"></i><span> 分类</span></a></div></div></div><div id="mobile-sidebar-toc"><div class="toc_mobile_headline">目录</div><div class="sidebar-toc__content"><ol class="toc_mobile_items"><li class="toc_mobile_items-item toc_mobile_items-level-3"><a class="toc_mobile_items-link" href="#1-新增-toc-ejs-文件"><span class="toc_mobile_items-text">1. 新增 toc.ejs 文件</span></a></li><li class="toc_mobile_items-item toc_mobile_items-level-3"><a class="toc_mobile_items-link" href="#2-修改-config-yml文件"><span class="toc_mobile_items-text">2. 修改_config.yml文件</span></a></li></ol></div></div></div><div id="body-wrap"><i class="fa fa-arrow-right" id="toggle-sidebar" aria-hidden="true">     </i><div class="auto_open" id="sidebar"><div class="sidebar-toc"><div class="sidebar-toc__title">目录</div><div class="sidebar-toc__progress"><span class="progress-notice">你已经读了</span><span class="progress-num">0</span><span class="progress-percentage">%</span><div class="sidebar-toc__progress-bar">     </div></div><div class="sidebar-toc__content"><ol class="toc"><li class="toc-item toc-level-3"><a class="toc-link" href="#1-新增-toc-ejs-文件"><span class="toc-text">1. 新增 toc.ejs 文件</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#2-修改-config-yml文件"><span class="toc-text">2. 修改_config.yml文件</span></a></li></ol></div></div></div><main id="content-outer"><div id="top-container" style="background-image: url(https://cdn.jsdelivr.net/gh/jerryc127/butterfly_cdn@2.1.0/top_img/default.png)"><div id="post-info"><div id="post-title"><div class="posttitle">Hexo博客添加文章目录</div></div><div id="post-meta"><time class="post-meta__date"><i class="fa fa-calendar fa-fw" aria-hidden="true"></i> 发表于 2020-03-01<span class="post-meta__separator">|</span><i class="fa fa-history fa-fw" aria-hidden="true"></i> 更新于 2020-03-15</time><span class="post-meta__separator">|</span><span><i class="fa fa-inbox post-meta__icon fa-fw" aria-hidden="true"></i><a class="post-meta__categories" href="/categories/Hexo/">Hexo</a></span><div class="post-meta-wordcount"><i class="fa fa-file-word-o post-meta__icon fa-fw" aria-hidden="true"></i><span>字数总计:</span><span class="word-count">660</span><span class="post-meta__separator">|</span><i class="fa fa-clock-o post-meta__icon fa-fw" aria-hidden="true"></i><span>阅读时长: 2 分钟</span><div class="post-meta-pv-cv"></div></div></div></div></div><div class="layout layout_post" id="content-inner">   <article id="post"><div class="article-container" id="post-content"><p>现在大多数人写博客都采用Hexo 提供的模板，为了不至于落后时代太多，咱也赶紧用起来。一般文章都会有目录索引，为了自己的博客更加完善也更加规范化，最近在网上找了一些相关资料，给自己的博客文章加上了目录。</p>
 <h3 id="1-新增-toc-ejs-文件"><a href="#1-新增-toc-ejs-文件" class="headerlink" title="1. 新增 toc.ejs 文件"></a>1. 新增 toc.ejs 文件</h3><p>打开本地所使用的主题文件夹，在 <strong>/layout/partial</strong> 文件夹下，新建一个 <strong>toc.ejs</strong> 文件，并填充以下内容</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">&lt;% if (item.toc !&#x3D; false) &#123; %&gt;</span><br><span class="line">    &lt;div id&#x3D;&quot;toc&quot;&gt;</span><br><span class="line">        &lt;strong class&#x3D;&quot;sidebar-title&quot;&gt;目录&lt;&#x2F;strong&gt;</span><br><span class="line">        &lt;%- toc(item.content, &#123;list_number : false&#125;) %&gt;</span><br><span class="line">    &lt;&#x2F;div&gt;</span><br><span class="line">&lt;% &#125; %&gt;</span><br></pre></td></tr></table></figure>
+<div class="code-area-wrap"><div class="highlight-tools"><i class="fa fa-angle-down code-expand" aria-hidden="true"></i><div class="code_lang">Code</div></div><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">&lt;% if (item.toc !&#x3D; false) &#123; %&gt;</span><br><span class="line">    &lt;div id&#x3D;&quot;toc&quot;&gt;</span><br><span class="line">        &lt;strong class&#x3D;&quot;sidebar-title&quot;&gt;目录&lt;&#x2F;strong&gt;</span><br><span class="line">        &lt;%- toc(item.content, &#123;list_number : false&#125;) %&gt;</span><br><span class="line">    &lt;&#x2F;div&gt;</span><br><span class="line">&lt;% &#125; %&gt;</span><br></pre></td></tr></table></figure></div>
 <p>其中 <strong>item.</strong> 这个前缀因人而异，有些主题可能是<strong>post.</strong> , 保持跟 <strong>article.ejs</strong> 里面的前缀一致即可，不然在执行 <strong>hexo g</strong> 时可能会报错。这里是采用了分片包含的写法，方便日后修改和维护。之后只需在<strong>article.ejs</strong> 里边将 <strong>toc.ejs</strong>包含进来即可。<br>在<strong>article.ejs</strong>文件里头，找到</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">&lt;%- item.content %&gt;</span><br></pre></td></tr></table></figure>
+<div class="code-area-wrap"><div class="highlight-tools"><i class="fa fa-angle-down code-expand" aria-hidden="true"></i><div class="code_lang">Code</div></div><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">&lt;%- item.content %&gt;</span><br></pre></td></tr></table></figure></div>
 <p>这行内容，代表这文章的正文内容，在其上面加上一行</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">&lt;%- partial(&#39;toc&#39;) %&gt;</span><br></pre></td></tr></table></figure>
+<div class="code-area-wrap"><div class="highlight-tools"><i class="fa fa-angle-down code-expand" aria-hidden="true"></i><div class="code_lang">Code</div></div><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">&lt;%- partial(&#39;toc&#39;) %&gt;</span><br></pre></td></tr></table></figure></div>
 <p>即可， 准备工作已然完成了一半。</p>
 <h3 id="2-修改-config-yml文件"><a href="#2-修改-config-yml文件" class="headerlink" title="2. 修改_config.yml文件"></a>2. 修改_config.yml文件</h3><p>修改配置文件，加入目录的全局配置</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">toc:</span><br><span class="line">  maxdepth: 3</span><br><span class="line">  class: toc</span><br><span class="line">  slugify: transliteration</span><br><span class="line">  decodeEntities: false</span><br><span class="line">  anchor:</span><br><span class="line">    position: after</span><br><span class="line">    symbol: &#39;####&#39;</span><br><span class="line">    style: header-anchor</span><br></pre></td></tr></table></figure>
+<div class="code-area-wrap"><div class="highlight-tools"><i class="fa fa-angle-down code-expand" aria-hidden="true"></i><div class="code_lang">Code</div></div><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">toc:</span><br><span class="line">  maxdepth: 3</span><br><span class="line">  class: toc</span><br><span class="line">  slugify: transliteration</span><br><span class="line">  decodeEntities: false</span><br><span class="line">  anchor:</span><br><span class="line">    position: after</span><br><span class="line">    symbol: &#39;####&#39;</span><br><span class="line">    style: header-anchor</span><br></pre></td></tr></table></figure></div>
 <p>这些配置选项的详细信息，可以参考给出的官方文档，摘录如下：</p>
 <table>
 <thead>
@@ -256,81 +115,28 @@
 </tr>
 </tbody></table>
 <p>一切就绪之后，</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">hexo clean &amp;&amp; hexo g &amp;&amp; hexo s</span><br></pre></td></tr></table></figure>
+<div class="code-area-wrap"><div class="highlight-tools"><i class="fa fa-angle-down code-expand" aria-hidden="true"></i><div class="code_lang">Code</div></div><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">hexo clean &amp;&amp; hexo g &amp;&amp; hexo s</span><br></pre></td></tr></table></figure></div>
 
 <p>看一下效果如何</p>
-<p><img src="./jietu_20200301225134.png" alt="image"></p>
+<p><a href="./jietu_20200301225134.png" data-fancybox="group" data-caption="image" class="fancybox"><img alt="image" title="image" data-src="./jietu_20200301225134.png" class="lazyload"></a></p>
 <p>可以看到文章的目录已经生成了，但是好像有那么一点不尽如人意的地方，目录自己生成了序号，与原来的序号合在一起显得多余了。诶，怎么这么奇怪？明明在<strong>toc.ejs</strong>中已经加上了</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">list_number : false</span><br></pre></td></tr></table></figure>
+<div class="code-area-wrap"><div class="highlight-tools"><i class="fa fa-angle-down code-expand" aria-hidden="true"></i><div class="code_lang">Code</div></div><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">list_number : false</span><br></pre></td></tr></table></figure></div>
 <p>选项了。百思不得其解…继续搜索资料，同时在本地预览打开F12审查下元素，最后发现是css样式的锅…<br>于是乎，找到<strong>theme/{your_theme}/source</strong>文件夹下的<strong>css</strong>目录，打开其中的<strong>article.styl</strong>文件，在其最后面添加上这么一段</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">#toc</span><br><span class="line">  background-color #eee</span><br><span class="line">  font-size 0.8em</span><br><span class="line">  color color-link</span><br><span class="line">  .toc-link</span><br><span class="line">    list-style none</span><br><span class="line">  .toc-child</span><br><span class="line">    list-style none</span><br></pre></td></tr></table></figure>
+<div class="code-area-wrap"><div class="highlight-tools"><i class="fa fa-angle-down code-expand" aria-hidden="true"></i><div class="code_lang">Code</div></div><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">#toc</span><br><span class="line">  background-color #eee</span><br><span class="line">  font-size 0.8em</span><br><span class="line">  color color-link</span><br><span class="line">  .toc-link</span><br><span class="line">    list-style none</span><br><span class="line">  .toc-child</span><br><span class="line">    list-style none</span><br></pre></td></tr></table></figure></div>
 <p>然后保存再重新跑一遍看看效果</p>
-<p><img src="./jietu_20200301225345.png" alt="image"><br>大功告成!</p>
+<p><a href="./jietu_20200301225345.png" data-fancybox="group" data-caption="image" class="fancybox"><img alt="image" title="image" data-src="./jietu_20200301225345.png" class="lazyload"></a><br>大功告成!</p>
 <hr>
 <p>参考资料:</p>
 <p><a href="https://pengloo53.gitbooks.io/hexo/content/chapter2/7%20%E6%B7%BB%E5%8A%A0%E6%96%87%E7%AB%A0%E7%9B%AE%E5%BD%95.html" target="_blank" rel="noopener">添加文章目录 · Hexo小书</a></p>
 <p><a href="https://hexo.io/docs/helpers#toc" target="_blank" rel="noopener">Hexo Docs</a></p>
-
-
-                
-            </div>
-
-            <!-- Comments -->
-            
-                <div class="col-lg-8 col-lg-offset-2 col-md-10 col-md-offset-1">
-                    
-
-
-                </div>
-            
-        </div>
-    </div>
-</article>
-
-    <!-- Footer -->
-    <hr />
-
-<!-- Footer -->
-<footer>
-    <div class="container">
-        <div class="row">
-            <div class="col-lg-8 col-lg-offset-2 col-md-10 col-md-offset-1">
-                <ul class="list-inline text-center">
-                    
-
-                    
-
-                    
-
-                    
-
-                    
-
-                    
-                </ul>
-                <p class="copyright text-muted">&copy; 2020 JanGin<br></p>
-                <p class="copyright text-muted">Power by <a target="_blank" href="https://hexo.io/">Hexo</a></p>
-            </div>
-        </div>
-    </div>
-</footer>
-
-
-    <!-- After footer scripts -->
-    
-<!-- jQuery -->
-<script src="//code.jquery.com/jquery-2.1.4.min.js"></script>
-
-<!-- Bootstrap -->
-<script src="//maxcdn.bootstrapcdn.com/bootstrap/3.3.6/js/bootstrap.min.js"></script>
-
-<!-- Gallery -->
-<script src="//cdnjs.cloudflare.com/ajax/libs/featherlight/1.3.5/featherlight.min.js" type="text/javascript" charset="utf-8"></script>
-
-<!-- Disqus Comments -->
-
-
-
-</body>
-
-</html>
+</div></article><div class="post-copyright"><div class="post-copyright__author"><span class="post-copyright-meta">文章作者: </span><span class="post-copyright-info"><a href="mailto:undefined">JanGin</a></span></div><div class="post-copyright__type"><span class="post-copyright-meta">文章链接: </span><span class="post-copyright-info"><a href="http://jangin.github.io/2020/03/01/Hexo%E5%8D%9A%E5%AE%A2%E6%B7%BB%E5%8A%A0%E6%96%87%E7%AB%A0%E7%9B%AE%E5%BD%95/">http://jangin.github.io/2020/03/01/Hexo%E5%8D%9A%E5%AE%A2%E6%B7%BB%E5%8A%A0%E6%96%87%E7%AB%A0%E7%9B%AE%E5%BD%95/</a></span></div><div class="post-copyright__notice"><span class="post-copyright-meta">版权声明: </span><span class="post-copyright-info">本博客所有文章除特别声明外，均采用 <a href="https://creativecommons.org/licenses/by-nc-sa/4.0/" target="_blank" rel="noopener">CC BY-NC-SA 4.0</a> 许可协议。转载请注明来自 <a href="http://jangin.github.io">JanGin's BLOG</a>！</span></div></div><div class="tag_share"><div class="post-meta__tag-list"><a class="post-meta__tags" href="/tags/Hexo/">Hexo    </a></div><div class="post_share"><div class="social-share" data-image="https://cdn.jsdelivr.net/gh/jerryc127/butterfly_cdn@2.1.0/top_img/default.png" data-sites="wechat,weibo,qq"></div><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/social-share.js/dist/css/share.min.css"><script src="https://cdn.jsdelivr.net/npm/social-share.js/dist/js/social-share.min.js"></script></div></div><nav class="pagination_post" id="pagination"><div class="prev-post pull_left"><a href="/2020/03/15/%E6%97%A5%E5%B8%B8%E5%B7%A5%E4%BD%9C%E4%B8%AD%E5%B8%B8%E7%94%A8%E7%9A%84Git%E6%93%8D%E4%BD%9C%E6%B1%87%E6%80%BB/"><img class="prev_cover lazyload" data-src="https://cdn.jsdelivr.net/gh/jerryc127/butterfly_cdn@2.1.0/top_img/default.png" onerror="onerror=null;src='/img/404.jpg'"><div class="label">上一篇</div><div class="prev_info"><span>日常工作中常用的Git操作汇总</span></div></a></div><div class="next-post pull_right"><a href="/2020/02/15/CentOS%207%E4%B8%8B%E5%AE%89%E8%A3%85MySQL%E6%AD%A5%E9%AA%A4%E7%AC%94%E8%AE%B0/"><img class="next_cover lazyload" data-src="https://cdn.jsdelivr.net/gh/jerryc127/butterfly_cdn@2.1.0/top_img/default.png" onerror="onerror=null;src='/img/404.jpg'"><div class="label">下一篇</div><div class="next_info"><span>CentOS 7下安装MySQL步骤笔记</span></div></a></div></nav><hr><div id="post-comment"><div class="comment_headling"><i class="fa fa-comments fa-fw" aria-hidden="true"></i><span> 评论</span></div><div id="disqus_thread"></div><link href="https://cdn.jsdelivr.net/npm/disqusjs@1.2/dist/disqusjs.css" rel="stylesheet"><script src="https://cdn.jsdelivr.net/npm/disqusjs@1.2/dist/disqus.js"></script><script>var dsqjs = new DisqusJS({
+  shortname: '',
+  siteName: "",
+  identifier: '2020/03/01/Hexo博客添加文章目录/',
+  url: 'http://jangin.github.io/2020/03/01/Hexo%E5%8D%9A%E5%AE%A2%E6%B7%BB%E5%8A%A0%E6%96%87%E7%AB%A0%E7%9B%AE%E5%BD%95/',
+  title: 'Hexo博客添加文章目录',
+  api: 'https://disqus.skk.moe/disqus/',
+  apikey: '',
+  admin: '',
+  adminLabel: ''
+});</script></div></div></main><footer id="footer" data-type="color"><div id="footer-wrap"><div class="copyright">&copy;2020 By JanGin</div><div class="framework-info"><span>驱动 </span><a href="http://hexo.io" target="_blank" rel="noopener"><span>Hexo</span></a><span class="footer-separator">|</span><span>主题 </span><a href="https://github.com/jerryc127/hexo-theme-butterfly" target="_blank" rel="noopener"><span>Butterfly</span></a></div></div></footer></div><section class="rightside" id="rightside"><div id="rightside-config-hide"><i class="fa fa-book" id="readmode" title="阅读模式"></i><i class="fa fa-plus" id="font_plus" title="放大字体"></i><i class="fa fa-minus" id="font_minus" title="缩小字体"></i><i class="darkmode fa fa-moon-o" id="darkmode" title="夜间模式"></i></div><div id="rightside-config-show"><div id="rightside_config" title="设置"><i class="fa fa-cog" aria-hidden="true"></i></div><i class="fa fa-list-ul close" id="mobile-toc-button" title="目录" aria-hidden="true"></i><i class="fa fa-arrow-up" id="go-up" title="回到顶部" aria-hidden="true"></i></div></section><script src="https://cdn.jsdelivr.net/npm/jquery@latest/dist/jquery.min.js"></script><script src="/js/utils.js"></script><script src="/js/main.js"></script><script src="https://cdn.jsdelivr.net/npm/@fancyapps/fancybox@latest/dist/jquery.fancybox.min.js"></script><script src="https://cdn.jsdelivr.net/npm/instant.page@latest/instantpage.min.js" type="module"></script><script src="https://cdn.jsdelivr.net/npm/lazysizes@latest/lazysizes.min.js" async=""></script><script src="https://cdn.jsdelivr.net/gh/jerryc127/butterfly_cdn@2.1.0/js/click_heart.js"></script></body></html>
