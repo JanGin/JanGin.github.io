@@ -74,14 +74,14 @@ function activateLightMode(){
 </blockquote>
 <p>在日常的web应用开发过程中，影响系统性能最大的瓶颈在于数据库，往往很多时候数据库的TPS就决定了系统的QPS。为了加大系统的吞吐量，这个时候一般都会在数据库这一层前面加上缓存来扛压，使得大部分的请求可以直接从缓存里面取到数据而不必直接与数据库交互，从而提高系统的响应时间和吞吐量。这样一来，数据被我们放在了缓存和数据库两处地方，这就引出今天的问题，该采用怎样的缓存读写策略，从而使得缓存和数据库的数据能够保证最终一致性呢？</p>
 <p>举个例子吧：<br>假设在某个电商系统中有一张商品表，其中有两个字段商品ID <strong><em>productid</em></strong> 和商品数量 <strong><em>count</em></strong>.<br>此时由于某个用户对商品P下单，导致商品数量减1. 此时采用怎样的缓存更新策略呢？ 先更新数据库把商品P的count自减1，再更新缓存中key为商品A的productid对应的缓存记录，如<strong><em>图1</em></strong>所示</p>
-<p><a href="./jietu_1_20200713.png" data-fancybox="group" data-caption="图1" class="fancybox"><img alt="图1" title="图1" data-src="./jietu_1_20200713.png" class="lazyload"></a></p>
+<p><a href="./jietu_1_20200713.png" data-fancybox="group" data-caption="图1" class="fancybox"><img alt="图1" data-src="./jietu_1_20200713.png" class="lazyload" title="图1"></a></p>
 <p>但其实这样做，会造成缓存和数据库中的数据<strong>不一致！</strong></p>
 <p>假设现在请求A将数据库中商品P的数量由100减为了99, 与此同时，请求B请求更新商品P的数量，他把商品P的库存数量由99减为了98，同时更新98到缓存中去。此时请求A开始更新缓存，便将数据又从98改为了99. 此时，数据库中的数据是98，而缓存中却变为了99，这不就数据不一致了嘛！整个过程如<strong><em>图2</em></strong> 所示：</p>
-<p><a href="./jietu_2_20200713.png" data-fancybox="group" data-caption="图2" class="fancybox"><img alt="图2" title="图2" data-src="./jietu_2_20200713.png" class="lazyload"></a></p>
+<p><a href="./jietu_2_20200713.png" data-fancybox="group" data-caption="图2" class="fancybox"><img alt="图2" data-src="./jietu_2_20200713.png" class="lazyload" title="图2"></a></p>
 <p>为什么会产生这个问题呢？ 这是因为更新数据库和更新缓存其实是两次不同的独立操作， 并且这两步操作并没有做什么并发控制以保证原子性。那么当有不止一个线程并发地更新同一个数据时，就会因为写入顺序的不同造成数据不一致。</p>
 <p>那么，该如何解决这个问题呢？</p>
 <p>解决办法就是：<strong>更新完数据库之后，不直接更新缓存，而是选择直接删除缓存</strong>。<br>这样子做的话，当数据库的数据更新完毕之后，下一次请求过来时，先读取缓存，发现缓存不命中，穿透请求到数据库拿到数据后，回种缓存即可。<br>这个过程表示如<strong><em>图3</em></strong> 所示：</p>
-<p><a href="./jietu_3_20200713.png" data-fancybox="group" data-caption="图3" class="fancybox"><img alt="图3" title="图3" data-src="./jietu_3_20200713.png" class="lazyload"></a></p>
+<p><a href="./jietu_3_20200713.png" data-fancybox="group" data-caption="图3" class="fancybox"><img alt="图3" data-src="./jietu_3_20200713.png" class="lazyload" title="图3"></a></p>
 <p>这样的读写缓存策略称之为<strong>缓存旁路（Cache Aside）</strong>策略，也是日常开发中最为常见和常用的，以数据库中的数据为准，而缓存中的数据则是按需加载。<br>其中读策略可以概括为：</p>
 <ol>
 <li>访问缓存获取数据</li>
@@ -95,7 +95,7 @@ function activateLightMode(){
 <li>更新完数据库，删除缓存</li>
 </ol>
 <p>使用了这个策略后，再来看看上面请求A和请求B同时更新商品P库存的例子。如 <strong><em>图4</em></strong> 所示：</p>
-<p><a href="./jietu_4_20200713.png" data-fancybox="group" data-caption="图4" class="fancybox"><img alt="图4" title="图4" data-src="./jietu_4_20200713.png" class="lazyload"></a></p>
+<p><a href="./jietu_4_20200713.png" data-fancybox="group" data-caption="图4" class="fancybox"><img alt="图4" data-src="./jietu_4_20200713.png" class="lazyload" title="图4"></a></p>
 <p>那么这种策略真的就无懈可击了吗？再考虑以下场景：请求A读取数据库中的数据为99，再请求A未将99写入缓存时，此时来了请求B更新数据库中的数据为98，并删除缓存，最后才由请求A将数据99写入到缓存中，这样一来，缓存和数据库的数据依然存在不一致的问题！不过其实这种情况发生的概率可以说是极小极小的！因为写缓存是内存写，真正写数据库会涉及到内存数据Page到磁盘上文件记录的转换，这中间必定会有磁盘I/O, 而磁盘写这个速度跟直接写内存的速度相比可是慢了至少两个数量级以上。因此实际上是几乎不可能发生请求B的数据在数据库中已经更新成功了而请求A还没将数据写入缓存这样的现象的。</p>
 <p><strong>旁路缓存(Cache Aside)</strong> 最大的不足，是当写入很频繁时，由于写入数据库后清理缓存，会对后续的读请求的缓存命中率带来一些影响。可采取的办法是，在更新数据之后同时更新缓存，但是可以对缓存设置一个比较短的过期时间。这样即使会出现不一致的现象，由于缓存很快过期，短时间内多次读取又会取到一致的数据，对整体业务的影响，是处于一个可以接受的范围内的。</p>
 <p>以上就是关于旁路缓存内容的一些总结和记录。下一篇计划写一写一些计算机操作系统层面的缓存策略。</p>

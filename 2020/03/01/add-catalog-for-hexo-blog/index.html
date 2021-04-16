@@ -118,13 +118,13 @@ function activateLightMode(){
 <div class="code-area-wrap"><div class="highlight-tools"><i class="fa fa-angle-down code-expand" aria-hidden="true"></i><div class="code_lang">Code</div></div><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">hexo clean &amp;&amp; hexo g &amp;&amp; hexo s</span><br></pre></td></tr></table></figure></div>
 
 <p>看一下效果如何</p>
-<p><a href="./jietu_20200301225134.png" data-fancybox="group" data-caption="image" class="fancybox"><img alt="image" title="image" data-src="./jietu_20200301225134.png" class="lazyload"></a></p>
+<p><a href="./jietu_20200301225134.png" data-fancybox="group" data-caption="image" class="fancybox"><img alt="image" data-src="./jietu_20200301225134.png" class="lazyload" title="image"></a></p>
 <p>可以看到文章的目录已经生成了，但是好像有那么一点不尽如人意的地方，目录自己生成了序号，与原来的序号合在一起显得多余了。诶，怎么这么奇怪？明明在<strong>toc.ejs</strong>中已经加上了</p>
 <div class="code-area-wrap"><div class="highlight-tools"><i class="fa fa-angle-down code-expand" aria-hidden="true"></i><div class="code_lang">Code</div></div><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">list_number : false</span><br></pre></td></tr></table></figure></div>
 <p>选项了。百思不得其解…继续搜索资料，同时在本地预览打开F12审查下元素，最后发现是css样式的锅…<br>于是乎，找到<strong>theme/{your_theme}/source</strong>文件夹下的<strong>css</strong>目录，打开其中的<strong>article.styl</strong>文件，在其最后面添加上这么一段</p>
 <div class="code-area-wrap"><div class="highlight-tools"><i class="fa fa-angle-down code-expand" aria-hidden="true"></i><div class="code_lang">Code</div></div><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">#toc</span><br><span class="line">  background-color #eee</span><br><span class="line">  font-size 0.8em</span><br><span class="line">  color color-link</span><br><span class="line">  .toc-link</span><br><span class="line">    list-style none</span><br><span class="line">  .toc-child</span><br><span class="line">    list-style none</span><br></pre></td></tr></table></figure></div>
 <p>然后保存再重新跑一遍看看效果</p>
-<p><a href="./jietu_20200301225345.png" data-fancybox="group" data-caption="image" class="fancybox"><img alt="image" title="image" data-src="./jietu_20200301225345.png" class="lazyload"></a><br>大功告成!</p>
+<p><a href="./jietu_20200301225345.png" data-fancybox="group" data-caption="image" class="fancybox"><img alt="image" data-src="./jietu_20200301225345.png" class="lazyload" title="image"></a><br>大功告成!</p>
 <hr>
 <p>参考资料:</p>
 <p><a href="https://pengloo53.gitbooks.io/hexo/content/chapter2/7%20%E6%B7%BB%E5%8A%A0%E6%96%87%E7%AB%A0%E7%9B%AE%E5%BD%95.html" target="_blank" rel="noopener">添加文章目录 · Hexo小书</a></p>

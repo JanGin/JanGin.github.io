@@ -80,7 +80,7 @@ function activateLightMode(){
 <li>pidstat</li>
 </ul>
 <h4 id="1-top"><a href="#1-top" class="headerlink" title="1. top"></a>1. top</h4><p>top 命令是用来动态显示当前机器上的所有进程的。类似于windows下任务管理器的进程页.</p>
-<p><a href="https://raw.githubusercontent.com/JanGin/oschina_myblog_pic/master/blog_pic/jietu_20210327165800.png" target="_blank" rel="noopener" data-fancybox="group" data-caption="image" class="fancybox"><img alt="image" title="image" data-src="https://raw.githubusercontent.com/JanGin/oschina_myblog_pic/master/blog_pic/jietu_20210327165800.png" class="lazyload"></a></p>
+<p><a href="https://raw.githubusercontent.com/JanGin/oschina_myblog_pic/master/blog_pic/jietu_20210327165800.png" target="_blank" rel="noopener" data-fancybox="group" data-caption="image" class="fancybox"><img alt="image" data-src="https://raw.githubusercontent.com/JanGin/oschina_myblog_pic/master/blog_pic/jietu_20210327165800.png" class="lazyload" title="image"></a></p>
 <p>如上图所示，相应的CPU指标参数分别的含义罗列如下：</p>
 <ul>
 <li><code>us（user）</code>，代表用户态 CPU 时间。不包括下面的 nice 时间，但包括了 guest 时间。</li>
@@ -106,7 +106,7 @@ function activateLightMode(){
 <p>例如以下命令为 每隔1秒在终端打印输出全部CPU的统计情况</p>
 <div class="code-area-wrap"><div class="highlight-tools"><i class="fa fa-angle-down code-expand" aria-hidden="true"></i><div class="code_lang">bash</div></div><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">mpstat -P ALL -u 1</span><br></pre></td></tr></table></figure></div>
 
-<h4 id="3-vmstat"><a href="#3-vmstat" class="headerlink" title="3. vmstat"></a>3. vmstat</h4><p><a href="https://raw.githubusercontent.com/JanGin/oschina_myblog_pic/master/blog_pic/jietu_20210327184018.png" target="_blank" rel="noopener" data-fancybox="group" data-caption="image" class="fancybox"><img alt="image" title="image" data-src="https://raw.githubusercontent.com/JanGin/oschina_myblog_pic/master/blog_pic/jietu_20210327184018.png" class="lazyload"></a></p>
+<h4 id="3-vmstat"><a href="#3-vmstat" class="headerlink" title="3. vmstat"></a>3. vmstat</h4><p><a href="https://raw.githubusercontent.com/JanGin/oschina_myblog_pic/master/blog_pic/jietu_20210327184018.png" target="_blank" rel="noopener" data-fancybox="group" data-caption="image" class="fancybox"><img alt="image" data-src="https://raw.githubusercontent.com/JanGin/oschina_myblog_pic/master/blog_pic/jietu_20210327184018.png" class="lazyload" title="image"></a></p>
 <p>vmstat 是一个常用的系统性能分析工具，主要用来分析系统的内存使用情况，也常用来分析 CPU 上下文切换和中断的次数。这其中跟CPU相关的参数如下：</p>
 <ul>
 <li>cs（context switch）是每秒上下文切换的次数。</li>
