@@ -1,0 +1,169 @@
+<!DOCTYPE html><html lang="zh-CN" data-theme="light"><head><meta charset="UTF-8"><meta http-equiv="X-UA-Compatible" content="IE=edge"><meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=5"><title>关于数据库事务的一些总结 | JanGin's BLOG</title><meta name="description" content="关于数据库事务的一些总结"><meta name="keywords" content="数据库"><meta name="author" content="JanGin"><meta name="copyright" content="JanGin"><meta name="format-detection" content="telephone=no"><link rel="shortcut icon" href="/img/favicon.ico"><link rel="preconnect" href="//cdn.jsdelivr.net"><link rel="preconnect" href="https://fonts.googleapis.com" crossorigin><meta name="twitter:card" content="summary"><meta name="twitter:title" content="关于数据库事务的一些总结"><meta name="twitter:description" content="关于数据库事务的一些总结"><meta name="twitter:image" content="http://jangin.github.io/img/5631855_p0.jpg"><meta property="og:type" content="article"><meta property="og:title" content="关于数据库事务的一些总结"><meta property="og:url" content="http://jangin.github.io/2020/07/25/notes-of-database-transaction/"><meta property="og:site_name" content="JanGin's BLOG"><meta property="og:description" content="关于数据库事务的一些总结"><meta property="og:image" content="http://jangin.github.io/img/5631855_p0.jpg"><meta http-equiv="Cache-Control" content="no-transform"><meta http-equiv="Cache-Control" content="no-siteapp"><script src="https://cdn.jsdelivr.net/npm/js-cookie/dist/js.cookie.min.js"></script><script>const autoChangeMode = 'true'
+var t = Cookies.get("theme");
+if (autoChangeMode == '1'){
+const isDarkMode = window.matchMedia("(prefers-color-scheme: dark)").matches
+const isLightMode = window.matchMedia("(prefers-color-scheme: light)").matches
+const isNotSpecified = window.matchMedia("(prefers-color-scheme: no-preference)").matches
+const hasNoSupport = !isDarkMode && !isLightMode && !isNotSpecified
+
+if (t === undefined){
+  if (isLightMode) activateLightMode()
+  else if (isDarkMode) activateDarkMode()
+  else if (isNotSpecified || hasNoSupport){
+    console.log('You specified no preference for a color scheme or your browser does not support it. I Schedule dark mode during night time.')
+    now = new Date();
+    hour = now.getHours();
+    isNight = hour < 6 || hour >= 18
+    isNight ? activateDarkMode() : activateLightMode()
+}
+} else if (t == 'light') activateLightMode()
+else activateDarkMode()
+
+
+} else if (autoChangeMode == '2'){
+  now = new Date();
+  hour = now.getHours();
+  isNight = hour < 6 || hour >= 18
+  if(t === undefined) isNight? activateDarkMode() : activateLightMode()
+  else if (t === 'light') activateLightMode()
+  else activateDarkMode() 
+} else {
+  if ( t == 'dark' ) activateDarkMode()
+  else if ( t == 'light') activateLightMode()
+}
+
+function activateDarkMode(){
+  document.documentElement.setAttribute('data-theme', 'dark')
+  if (document.querySelector('meta[name="theme-color"]') !== null){
+    document.querySelector('meta[name="theme-color"]').setAttribute('content','#000')
+  }
+}
+function activateLightMode(){
+  document.documentElement.setAttribute('data-theme', 'light')
+  if (document.querySelector('meta[name="theme-color"]') !== null){
+  document.querySelector('meta[name="theme-color"]').setAttribute('content','#fff')
+  }
+}</script><link rel="stylesheet" href="/css/index.css"><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/font-awesome@latest/css/font-awesome.min.css"><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fancyapps/fancybox@latest/dist/jquery.fancybox.min.css"><link rel="canonical" href="http://jangin.github.io/2020/07/25/notes-of-database-transaction/"><link rel="prev" title="Spring Boot 配置多数据源demo" href="http://jangin.github.io/2020/07/31/springboot-mulit-datasource-demo/"><link rel="next" title="常见的缓存更新策略（一）" href="http://jangin.github.io/2020/07/09/how-to-update-cache/"><link rel="stylesheet" type="text/css" href="https://cdn.jsdelivr.net/npm/gitalk/dist/gitalk.min.css"><script src="https://cdn.jsdelivr.net/npm/gitalk@latest/dist/gitalk.min.js"></script><script src="https://cdn.jsdelivr.net/npm/blueimp-md5@2.10.0/js/md5.min.js"></script><link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Titillium+Web"><script>var GLOBAL_CONFIG = { 
+  root: '/',
+  algolia: undefined,
+  localSearch: undefined,
+  translate: undefined,
+  copy: {
+    success: '复制成功',
+    error: '复制错误',
+    noSupport: '浏览器不支持'
+  },
+  bookmark: {
+    title: 'Snackbar.bookmark.title',
+    message_prev: '按',
+    message_next: '键将本页加入书签'
+  },
+  runtime_unit: '天',
+  runtime: true,
+  copyright: {"languages":{"author":"作者: JanGin","link":"链接: http://jangin.github.io/2020/07/25/notes-of-database-transaction/","source":"来源: JanGin's BLOG","info":"著作权归作者所有。商业转载请联系作者获得授权，非商业转载请注明出处。"}},
+  ClickShowText: undefined,
+  medium_zoom: false,
+  fancybox: true,
+  Snackbar: undefined,
+  baiduPush: false,
+  isHome: false,
+  isPost: true
+  
+}</script><meta name="generator" content="Hexo 4.2.0"></head><body><header> <div id="page-header"><span class="pull_left" id="blog_name"><a class="blog_title" id="site-name" href="/">JanGin's BLOG</a></span><span class="toggle-menu pull_right close"><a class="site-page"><i class="fa fa-bars fa-fw" aria-hidden="true"></i></a></span><span class="pull_right menus"><div class="menus_items"><div class="menus_item"><a class="site-page" href="/"><i class="fa-fw fa fa-home"></i><span> 主页</span></a></div><div class="menus_item"><a class="site-page" href="/archives/"><i class="fa-fw fa fa-archive"></i><span> 归档</span></a></div><div class="menus_item"><a class="site-page" href="/tags/"><i class="fa-fw fa fa-tags"></i><span> 标签</span></a></div><div class="menus_item"><a class="site-page" href="/categories/"><i class="fa-fw fa fa-folder-open"></i><span> 分类</span></a></div></div></span></div></header><div id="mobile-sidebar"><div id="menu_mask"></div><div id="mobile-sidebar-menus"><div class="mobile_author_icon"><img class="avatar-img" src="/img/avatar.jpg" onerror="onerror=null;src='/img/friend_404.gif'" alt="avatar"></div><div class="mobile_post_data"><div class="mobile_data_item is-center"><div class="mobile_data_link"><a href="/archives/"><div class="headline">文章</div><div class="length_num">31</div></a></div></div><div class="mobile_data_item is-center">      <div class="mobile_data_link"><a href="/tags/"><div class="headline">标签</div><div class="length_num">33</div></a></div></div><div class="mobile_data_item is-center">     <div class="mobile_data_link"><a href="/categories/"><div class="headline">分类</div><div class="length_num">14</div></a></div></div></div><hr><div class="menus_items"><div class="menus_item"><a class="site-page" href="/"><i class="fa-fw fa fa-home"></i><span> 主页</span></a></div><div class="menus_item"><a class="site-page" href="/archives/"><i class="fa-fw fa fa-archive"></i><span> 归档</span></a></div><div class="menus_item"><a class="site-page" href="/tags/"><i class="fa-fw fa fa-tags"></i><span> 标签</span></a></div><div class="menus_item"><a class="site-page" href="/categories/"><i class="fa-fw fa fa-folder-open"></i><span> 分类</span></a></div></div></div><div id="mobile-sidebar-toc"><div class="toc_mobile_headline">目录</div><div class="sidebar-toc__content"><ol class="toc_mobile_items"><li class="toc_mobile_items-item toc_mobile_items-level-4"><a class="toc_mobile_items-link" href="#1-什么是事务"><span class="toc_mobile_items-text">1. 什么是事务</span></a></li><li class="toc_mobile_items-item toc_mobile_items-level-4"><a class="toc_mobile_items-link" href="#2-事务的特性"><span class="toc_mobile_items-text">2. 事务的特性</span></a></li><li class="toc_mobile_items-item toc_mobile_items-level-4"><a class="toc_mobile_items-link" href="#3-事务的隔离级别"><span class="toc_mobile_items-text">3. 事务的隔离级别</span></a></li></ol></div></div></div><div id="body-wrap"><i class="fa fa-arrow-right" id="toggle-sidebar" aria-hidden="true">     </i><div class="auto_open" id="sidebar"><div class="sidebar-toc"><div class="sidebar-toc__title">目录</div><div class="sidebar-toc__progress"><span class="progress-notice">你已经读了</span><span class="progress-num">0</span><span class="progress-percentage">%</span><div class="sidebar-toc__progress-bar">     </div></div><div class="sidebar-toc__content"><ol class="toc"><li class="toc-item toc-level-4"><a class="toc-link" href="#1-什么是事务"><span class="toc-text">1. 什么是事务</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#2-事务的特性"><span class="toc-text">2. 事务的特性</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#3-事务的隔离级别"><span class="toc-text">3. 事务的隔离级别</span></a></li></ol></div></div></div><main id="content-outer"><div id="top-container" style="background-image: url(/img/5631855_p0.jpg)"><div id="post-info"><div id="post-title"><div class="posttitle">关于数据库事务的一些总结</div></div><div id="post-meta"><time class="post-meta__date"><i class="fa fa-calendar fa-fw" aria-hidden="true"></i> 发表于 2020-07-25<span class="post-meta__separator">|</span><i class="fa fa-history fa-fw" aria-hidden="true"></i> 更新于 2020-07-26</time><span class="post-meta__separator">|</span><span><i class="fa fa-inbox post-meta__icon fa-fw" aria-hidden="true"></i><a class="post-meta__categories" href="/categories/%E6%97%A5%E5%B8%B8%E6%80%BB%E7%BB%93/">日常总结</a></span><div class="post-meta-wordcount"><i class="fa fa-file-word-o post-meta__icon fa-fw" aria-hidden="true"></i><span>字数总计:</span><span class="word-count">1k</span><span class="post-meta__separator">|</span><i class="fa fa-clock-o post-meta__icon fa-fw" aria-hidden="true"></i><span>阅读时长: 3 分钟</span><div class="post-meta-pv-cv"></div></div></div></div></div><div class="layout layout_post" id="content-inner">   <article id="post"><div class="article-container" id="post-content"><blockquote>
+<p>该篇是关于数据库事务方面的一部分总结笔记.</p>
+</blockquote>
+<h4 id="1-什么是事务"><a href="#1-什么是事务" class="headerlink" title="1. 什么是事务"></a>1. 什么是事务</h4><p> 事务，英文 Transaction. 是指一组在数据库中的操作，通常指代任何会引起数据库内部变化的操作。 </p>
+<p> 维基百科上原话是：</p>
+<blockquote>
+<p> A database transaction symbolizes a unit of work performed within a database management system (or similar system) against a database, and treated in a coherent and reliable way independent of other transactions. A transaction generally represents any change in a database.</p>
+</blockquote>
+<h4 id="2-事务的特性"><a href="#2-事务的特性" class="headerlink" title="2. 事务的特性"></a>2. 事务的特性</h4><p>通常来说，事务都包含以下四个特点，原子性（Atomic）, 一致性（Consistent）, 隔离性（Isolated）, 持久性（Durable）. 简称ACID.</p>
+<ol>
+<li>原子性: 指数据库在执行一组事务的时候，这组事务组成了不可分割的工作单元。这一组事务要么全部成功要么全部失败，不允许一部分成功一部分失败。</li>
+<li>一致性: 是指事务必须使数据库状态从一个一致性状态到达另一个一致性状态。呵呵，这是百科给出来的定义，太教科书化了，让人听完之后还是云里雾里的。看以下维基百科给出来的原文定义：<blockquote>
+<p>Consistency ensures that a transaction can only bring the database from one valid state to another, maintaining database invariants: any data written to the database must be valid according to all defined rules, including constraints, cascades,triggers, and any combination thereof. This prevents database corruption by an illegal transaction, but does not guarantee that a transaction is correct.</p>
+</blockquote>
+</li>
+</ol>
+<p>按照我的理解，一致性保证了数据库从一个有效状态迁移到另一个有效状态。举个栗子，你给一张表定义了一些列，同时规定了列的类型，并且给整张表还加了一些约束。如果想往这张表中插入数据，那么这些新数据会受到列名类型的约束，又或者是整张表的唯一性约束。这些约束最终能保证你插入的数据是合规的，保证了数据库内容更新之后依然处于一个有效的状态。</p>
+<ol start="3">
+<li>隔离性: 是指一个事务的执行不应该受到其他事务的影响和干扰。多个并发的事务，他们之间对数据库的修改应该是隔离的，当然了，隔离性会受到隔离级别的影响，下边会展开细说。</li>
+<li>持久性: 这个是最好理解的了，就是说事务对于数据库的修改，在事务提交之后，将会是永久性的，不受接下来其他操作的影响。</li>
+</ol>
+<h4 id="3-事务的隔离级别"><a href="#3-事务的隔离级别" class="headerlink" title="3. 事务的隔离级别"></a>3. 事务的隔离级别</h4><p>事务有以下四个隔离级别.</p>
+<ol>
+<li>读未提交 (read uncommitted), 指一个事务未提交的数据能被其他事务看见</li>
+<li>读已提交 (read committed), 指一个事务只能读到别的事务已提交的事务</li>
+<li>可重复读 (repeatable read), 是指一个事务执行过程中，该事务能看到的数据总是跟事务启动时能看到的数据保持一致</li>
+<li>串行化   (serializable), 是指对于同一行记录，事务在读取和更新时分别会加上读锁和写锁，当发生读写冲突时，只有等待前一个事务执行完成后，后续的事务才能继续执行操作，因此这个隔离级别的并发效率是最低的。</li>
+</ol>
+<p>下面再举个栗子说明一下.</p>
+<table>
+<thead>
+<tr>
+<th>事务A</th>
+<th>事务B</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>begin select val=1</td>
+<td>begin</td>
+</tr>
+<tr>
+<td>——</td>
+<td>select  val=1</td>
+</tr>
+<tr>
+<td>——</td>
+<td>update val=2</td>
+</tr>
+<tr>
+<td>select val as v1</td>
+<td>——</td>
+</tr>
+<tr>
+<td>——</td>
+<td>commit</td>
+</tr>
+<tr>
+<td>select val as v2</td>
+<td>——</td>
+</tr>
+<tr>
+<td>commit</td>
+<td>——</td>
+</tr>
+<tr>
+<td>select val as v3</td>
+<td>——</td>
+</tr>
+</tbody></table>
+<p>对于读未提交，事务A看到的v1,v2和v3的值都是2</p>
+<p>对于读已提交，事务A看到的v1值为1，v2和v3的值为2</p>
+<p>对于可重复读，事务A看到的v1和v2都是1，由于事务B的修改，事务A看到的v3值是2</p>
+<p>对于串行化，事务B在执行update时会被加上写锁。由于事务A和B都是在操作val, 因此会发生读写冲突。又由于事务A在事务B之前，所以事务B必须等待事务A提交后才能继续往下执行。事务A看到的v1和v2值均为1，看到的v3值为2.</p>
+<hr>
+<p>本文参考内容出处:</p>
+<ol>
+<li>维基百科</li>
+<li>《极客时间MySQL 45讲 – 林晓斌》</li>
+</ol>
+</div></article><div class="post-copyright"><div class="post-copyright__author"><span class="post-copyright-meta">文章作者: </span><span class="post-copyright-info"><a href="mailto:undefined">JanGin</a></span></div><div class="post-copyright__type"><span class="post-copyright-meta">文章链接: </span><span class="post-copyright-info"><a href="http://jangin.github.io/2020/07/25/notes-of-database-transaction/">http://jangin.github.io/2020/07/25/notes-of-database-transaction/</a></span></div><div class="post-copyright__notice"><span class="post-copyright-meta">版权声明: </span><span class="post-copyright-info">本博客所有文章除特别声明外，均采用 <a href="https://creativecommons.org/licenses/by-nc-sa/4.0/" target="_blank" rel="noopener">CC BY-NC-SA 4.0</a> 许可协议。转载请注明来自 <a href="http://jangin.github.io">JanGin's BLOG</a>！</span></div></div><div class="tag_share"><div class="post-meta__tag-list"><a class="post-meta__tags" href="/tags/%E6%95%B0%E6%8D%AE%E5%BA%93/">数据库    </a></div><div class="post_share"><div class="social-share" data-image="/img/5631855_p0.jpg" data-sites="wechat,weibo,qq"></div><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/social-share.js/dist/css/share.min.css"><script src="https://cdn.jsdelivr.net/npm/social-share.js/dist/js/social-share.min.js"></script></div></div><nav class="pagination_post" id="pagination"><div class="prev-post pull_left"><a href="/2020/07/31/springboot-mulit-datasource-demo/"><img class="prev_cover lazyload" data-src="/img/5631855_p0.jpg" onerror="onerror=null;src='/img/404.jpg'"><div class="label">上一篇</div><div class="prev_info"><span>Spring Boot 配置多数据源demo</span></div></a></div><div class="next-post pull_right"><a href="/2020/07/09/how-to-update-cache/"><img class="next_cover lazyload" data-src="/img/5631855_p0.jpg" onerror="onerror=null;src='/img/404.jpg'"><div class="label">下一篇</div><div class="next_info"><span>常见的缓存更新策略（一）</span></div></a></div></nav><hr><div id="post-comment"><div class="comment_headling"><i class="fa fa-comments fa-fw" aria-hidden="true"></i><span> 评论</span></div><div id="gitalk-container"></div><script>var createIssueManually = false == true ? true : false;
+var distractionFreeMode = false == true ? true : false;
+var gitalk = new Gitalk({
+  clientID: '',
+  clientSecret: '',
+  repo: '',
+  owner: '',
+  admin: '',
+  id: md5(decodeURI(location.pathname)),
+  createIssueManually: createIssueManually,
+  distractionFreeMode: distractionFreeMode,
+  language: 'en , zh-CN ,',
+  updateCountCallback: commentCount
+})
+gitalk.render('gitalk-container')
+
+function commentCount(n){
+  document.getElementsByClassName('gitalk-comment-count')[0].innerHTML= n
+}</script></div></div></main><footer id="footer" data-type="color"><div id="footer-wrap"><div class="copyright">&copy;2020 - 2021 By JanGin</div><div class="framework-info"><span>驱动 </span><a href="http://hexo.io" target="_blank" rel="noopener"><span>Hexo</span></a><span class="footer-separator">|</span><span>主题 </span><a href="https://github.com/jerryc127/hexo-theme-butterfly" target="_blank" rel="noopener"><span>Butterfly</span></a></div></div></footer></div><section class="rightside" id="rightside"><div id="rightside-config-hide"><i class="fa fa-book" id="readmode" title="阅读模式"></i><i class="fa fa-plus" id="font_plus" title="放大字体"></i><i class="fa fa-minus" id="font_minus" title="缩小字体"></i><i class="darkmode fa fa-moon-o" id="darkmode" title="夜间模式"></i></div><div id="rightside-config-show"><div id="rightside_config" title="设置"><i class="fa fa-cog" aria-hidden="true"></i></div><a id="to_comment" href="#post-comment" title="直达评论"><i class="scroll_to_comment fa fa-comments">  </i></a><i class="fa fa-list-ul close" id="mobile-toc-button" title="目录" aria-hidden="true"></i><i class="fa fa-arrow-up" id="go-up" title="回到顶部" aria-hidden="true"></i></div></section><script src="https://cdn.jsdelivr.net/npm/jquery@latest/dist/jquery.min.js"></script><script src="/js/utils.js"></script><script src="/js/main.js"></script><script src="https://cdn.jsdelivr.net/npm/@fancyapps/fancybox@latest/dist/jquery.fancybox.min.js"></script><script src="https://cdn.jsdelivr.net/npm/instant.page@latest/instantpage.min.js" type="module"></script><script src="https://cdn.jsdelivr.net/npm/lazysizes@latest/lazysizes.min.js" async=""></script><script src="https://cdn.jsdelivr.net/gh/jerryc127/butterfly_cdn@2.1.0/js/click_heart.js"></script></body></html>
